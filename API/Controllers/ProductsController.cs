@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +16,19 @@ namespace API.Controllers
             => _repository = repository;
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
             => Ok(await _repository.GetProductsAsync());
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct(int id)
             => Ok(await _repository.GetProductByIdAsync(id));
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+            => Ok(await _repository.GetProductBrandsAsync());
+        
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+            => Ok(await _repository.GetProductTypesAsync());
     }
 }
