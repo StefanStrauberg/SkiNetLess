@@ -28,7 +28,7 @@ namespace API.Controllers
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products
-                                        .FirstOrDefaultAsync(x => x.Id == id);
+                                        .FindAsync(id);
             return product;
         }
     }
