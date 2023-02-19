@@ -354,3 +354,6 @@ Migrations/
 
 # SQLite DB
 *.db
+
+# appsettings
+appsettings.json
