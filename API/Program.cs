@@ -1,4 +1,5 @@
 using System;
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<StoreContext>(options => {
 });
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
