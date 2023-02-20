@@ -1,4 +1,5 @@
 using System;
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +15,9 @@ builder.Services.AddDbContext<StoreContext>(options => {
     options.UseSqlite(builder.Configuration
                              .GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -43,6 +46,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

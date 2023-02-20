@@ -357,3 +357,6 @@ Migrations/
 
 # appsettings
 appsettings.json
+
+# static files
+wwwroot/
