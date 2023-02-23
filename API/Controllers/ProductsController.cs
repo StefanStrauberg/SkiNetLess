@@ -32,10 +32,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
-            => Ok(_mapper.Map<IReadOnlyList<ProductToReturnDto>>(
-                         await _productRepository.GetAllEntitiesWithSpec(
-                               new ProductsWithTypesAndBrandsSpecification())));
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort,
+                                                                                       int? brandId,
+                                                                                       int? typeId)
+        {
+            var spec = new ProductsWithTypesAndBrandsSpecification(sort,
+                                                                   brandId,
+                                                                   typeId);
+            var products = await _productRepository.GetAllEntitiesWithSpec(spec);
+            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+        }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -46,7 +52,7 @@ namespace API.Controllers
             var product = await _productRepository.GetEntityWithSpec(spec);
             if (product is null)
                 return NotFound(new ApiResponse(404));
-            return _mapper.Map<Product, ProductToReturnDto>(product);
+            return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
         }
 
         [HttpGet("brands")]
